@@ -1,18 +1,35 @@
 package VectorRace;
 
+import java.io.IOException;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        Track track = new Track();
-        track.loadFromFile("track.txt");
-
-        char[][] grid = track.getGrid();
-        for (char[] row : grid) {
-            System.out.println(new String(row));
+        ITrack track = new Track();
+        try {
+            track.loadFromFile("track.txt");
+        } catch (IOException e) {
+            System.err.println("Errore nel caricamento del tracciato: " + e.getMessage());
+            return;
         }
 
-        System.out.println("Start Position: (" + track.getStart().getX() + ", " + track.getStart().getY() + ")");
-        System.out.println("Finish Position: (" + track.getFinish().getX() + ", " + track.getFinish().getY() + ")");
+        GameBoard board = new GameBoard(track);
+        IVelocityCalculator velocityCalc = new SimpleVelocityCalculator();
+        IInertiaManager inertiaMgr = new DefaultInertiaManager();
+        int maxTurns = 20;  // Imposta qui il limite desiderato
+        GameEngine engine = new GameEngine(board, velocityCalc, inertiaMgr, maxTurns);
+
+        IPlayer human = new HumanPlayer("Alice", track.getStartPosition());
+        IPlayer aggressiveBot = new AggressiveBot("AggroBot", track.getStartPosition());
+        IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
+
+        engine.addPlayer(human);
+        engine.addPlayer(aggressiveBot);
+        engine.addPlayer(defensiveBot);
+
+        board.display(engine.players);  // Visualizza lo stato iniziale se desiderato
+
+        engine.startRace();
     }
 }

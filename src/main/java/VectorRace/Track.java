@@ -4,75 +4,113 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Track implements ITrack{
-
+public class Track implements ITrack {
     private char[][] grid;
-    private Position start;
-    private Position finish;
-    @Override
-    public void loadFromFile(String filename) {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
-             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            int rows = 0;
-            int cols = 0;
+    private List<Position> startPositions = new ArrayList<>();
+    private List<Position> finishPositions = new ArrayList<>();
+    private int width;
+    private int height;
 
-            // First, read the file to determine the dimensions of the grid
+    @Override
+    public void loadFromFile(String filename) throws IOException {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename)) {
+            if (inputStream == null) {
+                throw new IOException("File non trovato: " + filename);
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            List<String> lines = new ArrayList<>();
+            String line;
             while ((line = br.readLine()) != null) {
-                cols = Math.max(cols, line.length());
-                rows++;
+                lines.add(line);
+                width = Math.max(width, line.length());
+                height++;
             }
 
-            // Initialize the grid with the dimensions
-            grid = new char[rows][cols];
-
-            // Reset the BufferedReader to read the file again
-            inputStream.close();
-
-            try (InputStream inputStream2 = getClass().getClassLoader().getResourceAsStream(filename);
-                 BufferedReader br2 = new BufferedReader(new InputStreamReader(inputStream2))) {
-                int row = 0;
-                while ((line = br2.readLine()) != null) {
-                    for (int col = 0; col < line.length(); col++) {
-                        char currentChar = line.charAt(col);
-                        grid[row][col] = currentChar;
-
-                        if (currentChar == 'S') {
-                            start = new Position(row, col);
-                        } else if (currentChar == 'F') {
-                            finish = new Position(row, col);
-                        } else if (currentChar == '#') {
-                            // '#' is considered an obstacle
-                        } else {
-                            grid[row][col] = '.';
-                        }
+            grid = new char[height][width];
+            for (int y = 0; y < height; y++) {
+                String currentLine = lines.get(y);
+                for (int x = 0; x < width; x++) {
+                    char currentChar = (x < currentLine.length()) ? currentLine.charAt(x) : '.';
+                    switch (currentChar) {
+                        case 'S':
+                            startPositions.add(new Position(x, y));
+                            grid[y][x] = '.'; // Considera la cella come libera, ma registra la posizione di start
+                            break;
+                        case 'F':
+                            finishPositions.add(new Position(x, y));
+                            grid[y][x] = '.'; // Analogamente per la fine
+                            break;
+                        case '#':
+                            grid[y][x] = '#';
+                            break;
+                        default:
+                            grid[y][x] = '.';
+                            break;
                     }
-                    // Fill the rest of the row with empty spaces if line is shorter than max cols
-                    for (int col = line.length(); col < cols; col++) {
-                        grid[row][col] = '.';
-                    }
-                    row++;
                 }
             }
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
         }
     }
 
-
-    public char[][] getGrid() {
-        return grid;
+    @Override
+    public char getCell(Position position) {
+        if (isWithinBounds(position)) {
+            return grid[position.getY()][position.getX()];
+        }
+        return '#'; // Fuori dai limiti considerato ostacolo
     }
 
-    public Position getStart() {
-        return start;
+    @Override
+    public boolean isFree(Position position) {
+        return getCell(position) == '.';
     }
 
-    public Position getFinish() {
-        return finish;
+    @Override
+    public boolean isObstacle(Position position) {
+        return getCell(position) == '#';
     }
 
+    @Override
+    public boolean isFinish(Position position) {
+        // Verifica se la posizione è uno dei punti di arrivo
+        return finishPositions.contains(position);
+    }
+
+    @Override
+    public Position getStartPosition() {
+        // Ritorna la prima posizione di partenza se disponibile
+        return startPositions.isEmpty() ? null : startPositions.get(0);
+    }
+
+    @Override
+    public Position getFinishPosition() {
+        // Ritorna la prima posizione di arrivo se disponibile
+        return finishPositions.isEmpty() ? null : finishPositions.get(0);
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    public List<Position> getAllStartPositions() {
+        return startPositions;
+    }
+
+    public List<Position> getAllFinishPositions() {
+        return finishPositions;
+    }
+
+    private boolean isWithinBounds(Position position) {
+        return position.getX() >= 0 && position.getX() < width &&
+                position.getY() >= 0 && position.getY() < height;
+    }
 }
-
-

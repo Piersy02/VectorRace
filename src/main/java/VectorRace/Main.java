@@ -20,13 +20,17 @@ public class Main {
         int maxTurns = 20;  // Imposta qui il limite desiderato
         GameEngine engine = new GameEngine(board, velocityCalc, inertiaMgr, maxTurns);
 
-        //IPlayer human = new HumanPlayer("Saverio", track.getStartPosition());
-        IPlayer aggressiveBot = new AggressiveBot("AggroBot", track.getStartPosition());
-        IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
+        //IPlayer human = new HumanPlayer("h", track.getStartPosition());
+        IPlayer aggressiveBot = new AggressiveBot("a", track.getStartPosition());
+        //IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
+        IPlayer greedyBot = new GreedyBot("g", track.getStartPosition(), track);
+        IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
 
         //engine.addPlayer(human);
         engine.addPlayer(aggressiveBot);
-        engine.addPlayer(defensiveBot);
+        //engine.addPlayer(defensiveBot);
+        engine.addPlayer(greedyBot);
+        engine.addPlayer(speedBot);
 
         //board.display(engine.players);  // Visualizza lo stato iniziale se desiderato
 

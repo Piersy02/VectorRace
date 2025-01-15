@@ -20,15 +20,15 @@ public class Main {
         int maxTurns = 20;  // Imposta qui il limite desiderato
         GameEngine engine = new GameEngine(board, velocityCalc, inertiaMgr, maxTurns);
 
-        IPlayer human = new HumanPlayer("Alice", track.getStartPosition());
+        //IPlayer human = new HumanPlayer("Saverio", track.getStartPosition());
         IPlayer aggressiveBot = new AggressiveBot("AggroBot", track.getStartPosition());
         IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
 
-        engine.addPlayer(human);
+        //engine.addPlayer(human);
         engine.addPlayer(aggressiveBot);
         engine.addPlayer(defensiveBot);
 
-        board.display(engine.players);  // Visualizza lo stato iniziale se desiderato
+        //board.display(engine.players);  // Visualizza lo stato iniziale se desiderato
 
         engine.startRace();
     }

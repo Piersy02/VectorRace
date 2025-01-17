@@ -18,6 +18,7 @@ public class SpeedControlBot extends BasePlayer {
         List<VectorDirection.CardinalDirection> safeDirs = new ArrayList<>();
         for (VectorDirection.CardinalDirection dir : allowedDirections) {
             Position nextPos = getNextPosition(this.currentPosition, dir);
+
             if (track.isFree(nextPos)) {
                 safeDirs.add(dir);
             }

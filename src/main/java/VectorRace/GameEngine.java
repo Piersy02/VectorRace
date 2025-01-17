@@ -27,79 +27,15 @@ public class GameEngine {
     }
 
     public void startRace() {
-        board.display(players, previousDirections);
 
         boolean raceFinished = false;
         int turn = 0;
         while (!raceFinished && turn < maxTurns) {
-            System.out.println("Turno: " + (turn + 1));
             turn++;
+            processTurn(turn);
 
-            boolean anySuccessfulMove = false;
-
-            // Utilizzo di un iterator per poter rimuovere giocatori in sicurezza
-            Iterator<IPlayer> iterator = players.iterator();
-            while (iterator.hasNext()) {
-                IPlayer player = iterator.next();
-
-                // Salta il giocatore se è stato rimosso in precedenza da altre logiche
-                if (player == null) continue;
-
-                VectorDirection.CardinalDirection previousDirection = previousDirections.get(player);
-                List<VectorDirection.CardinalDirection> allowed = inertiaManager.allowedDirections(player.getVelocity(), previousDirection);
-                VectorDirection.CardinalDirection chosenDirection = player.chooseDirection(allowed);
-
-                // Se non esiste una direzione sicura, passa al prossimo giocatore
-                if (chosenDirection == null) {
-                    System.out.println(((BasePlayer)player).getName() + " non ha direzioni sicure per muoversi.");
-                    continue;
-                }
-
-                previousDirections.put(player, chosenDirection);
-                int acceleration = player.chooseAcceleration();
-                player.setVelocity(player.getVelocity() + acceleration);
-
-                Position currentPos = player.getCurrentPosition();
-                Position newPos = calculateNewPosition(currentPos, chosenDirection, player.getVelocity());
-
-                if (!board.isFree(newPos)) {
-                    if (board.isObstacle(newPos)) {
-                        System.out.println(((BasePlayer)player).getName() + " ha colpito un ostacolo ed è eliminato dal gioco!");
-                        // Rimuove il giocatore corrente dalla lista
-                        iterator.remove();
-                        // Rimuove l'entrata dalla mappa delle direzioni precedenti
-                        previousDirections.remove(player);
-                        // Passa al prossimo giocatore
-                        continue;
-                    } else {
-                        System.out.println("Posizione occupata da un altro giocatore. " +
-                                ((BasePlayer)player).getName() + " riprova la mossa...");
-                        continue;
-                    }
-                }
-
-                if (board.isFinish(newPos)) {
-                    System.out.println(((BasePlayer)player).getName() + " ha raggiunto il traguardo!");
-                    raceFinished = true;
-                    anySuccessfulMove = true;
-                    // Aggiorna la posizione e visualizza, poi interrompe se la gara è finita
-                    board.updatePlayerPosition(player, newPos);
-                    player.setCurrentPosition(newPos);
-                    board.display(players, previousDirections);
-                    break;
-                }
-
-                board.updatePlayerPosition(player, newPos);
-                player.setCurrentPosition(newPos);
-                board.display(players, previousDirections);
-                anySuccessfulMove = true;
-            }
-
-            if (!anySuccessfulMove) {
-                System.out.println("Nessun giocatore è riuscito a muoversi in questo turno.");
-            }
-
-            // Se non ci sono più giocatori attivi, termina la partita
+            // Verifica eventuali condizioni di fine gara,
+            // ad esempio, se non ci sono più giocatori o se è stato raggiunto il traguardo.
             if (players.isEmpty()) {
                 System.out.println("Tutti i giocatori sono stati eliminati. La partita finisce.");
                 break;
@@ -112,6 +48,61 @@ public class GameEngine {
     }
 
 
+    private void processTurn(int turn) {
+
+        System.out.println("Turno: " + turn);
+
+        Iterator<IPlayer> iterator = players.iterator();
+        while (iterator.hasNext()) {
+            IPlayer player = iterator.next();
+            processPlayerTurn(player, iterator);
+        }
+
+
+    }
+
+    private void processPlayerTurn(IPlayer player, Iterator<IPlayer> iterator) {
+        VectorDirection.CardinalDirection previousDirection = previousDirections.get(player);
+        List<VectorDirection.CardinalDirection> allowed = inertiaManager.allowedDirections(player.getVelocity(), previousDirection);
+        VectorDirection.CardinalDirection chosenDirection = player.chooseDirection(allowed);
+
+        if (chosenDirection == null) {
+            System.out.println(((BasePlayer)player).getName() + " non ha direzioni sicure per muoversi.");
+            return;
+        }
+
+        previousDirections.put(player, chosenDirection);
+        int acceleration = player.chooseAcceleration();
+        player.setVelocity(player.getVelocity() + acceleration);
+
+        Position currentPos = player.getCurrentPosition();
+        Position newPos = calculateNewPosition(currentPos, chosenDirection, player.getVelocity());
+
+        if (!board.isFree(newPos)) {
+            handleCollision(player, newPos, iterator);
+        } else {
+            if (board.isFinish(newPos)) {
+                System.out.println(((BasePlayer)player).getName() + " ha raggiunto il traguardo!");
+                // Gestione della vittoria e uscita dal turno
+                return;
+            }
+            board.updatePlayerPosition(player, newPos);
+            player.setCurrentPosition(newPos);
+            board.display(players, previousDirections);
+        }
+    }
+
+    private void handleCollision(IPlayer player, Position newPos, Iterator<IPlayer> iterator) {
+        if (board.isObstacle(newPos)) {
+            System.out.println(((BasePlayer)player).getName() + " ha colpito un ostacolo ed è eliminato dal gioco!");
+            iterator.remove();
+            previousDirections.remove(player);
+        } else {
+            System.out.println("Posizione occupata da un altro giocatore. " +
+                    ((BasePlayer)player).getName() + " riprova la mossa...");
+            // Possibile logica per gestire la ripetizione o il salto della mossa
+        }
+    }
 
 
     private Position calculateNewPosition(Position current,

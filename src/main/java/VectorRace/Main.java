@@ -28,16 +28,16 @@ public class Main {
         //IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
         IPlayer greedyBot = new GreedyBot("g", track.getStartPosition(), track);
         //playersList.add(greedyBot);
-        //IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
-        IPlayer awareBot = new AwareBot("c", track.getStartPosition(), track, playersList);
+        IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
+        //IPlayer awareBot = new AwareBot("c", track.getStartPosition(), track, playersList);
         //playersList.add(awareBot);
 
         //engine.addPlayer(human);
         engine.addPlayer(aggressiveBot);
         //engine.addPlayer(defensiveBot);
         engine.addPlayer(greedyBot);
-        //engine.addPlayer(speedBot);
-        engine.addPlayer(awareBot);
+        engine.addPlayer(speedBot);
+        //engine.addPlayer(awareBot);
 
         for (IPlayer p : playersList) {
             engine.addPlayer(p);

@@ -22,8 +22,7 @@ public class GameEngine {
     private GameBoard board;
 
     /**
-     * IVelocityCalculator (non usato direttamente in questo codice, ma può servire
-     * per calcolare velocità più complesse).
+     * IVelocityCalculator (per calcolare velocità più complesse).
      */
     private IVelocityCalculator velocityCalculator;
 
@@ -119,7 +118,7 @@ public class GameEngine {
     }
 
     /**
-     * Esegue le azioni di un singolo giocatore in un turno:
+     *   Esegue le azioni di un singolo giocatore in un turno:
      * - Calcola le direzioni consentite in base alla velocità e direzione precedente.
      * - Fa scegliere al giocatore la direzione.
      * - Calcola l'accelerazione e aggiorna la velocità.
@@ -163,8 +162,7 @@ public class GameEngine {
             // Se la nuova posizione è un traguardo, il giocatore ha vinto.
             if (board.isFinish(newPos)) {
                 System.out.println(((BasePlayer)player).getName() + " ha raggiunto il traguardo!");
-                // Qui si potrebbe implementare la logica di termine immediato della gara o
-                // continuare a far giocare gli altri per stabilire altre posizioni in classifica.
+
                 return;
             }
             // Aggiornamento della posizione sul board e sullo stato del giocatore.
@@ -195,7 +193,6 @@ public class GameEngine {
             // Se la posizione è occupata da un altro giocatore.
             System.out.println("Posizione occupata da un altro giocatore. " +
                     ((BasePlayer)player).getName() + " riprova la mossa...");
-            // Possibile inserire logica per far ritentare la mossa, saltare il turno, ecc.
         }
     }
 

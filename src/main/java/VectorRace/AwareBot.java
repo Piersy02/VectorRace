@@ -143,34 +143,14 @@ public class AwareBot extends BasePlayer {
 
         // Aggiorna le coordinate in base alla direzione.
         switch (direction) {
-            case N:
-                y -= 1;
-                break;
-            case NE:
-                x += 1;
-                y -= 1;
-                break;
-            case E:
-                x += 1;
-                break;
-            case SE:
-                x += 1;
-                y += 1;
-                break;
-            case S:
-                y += 1;
-                break;
-            case SW:
-                x -= 1;
-                y += 1;
-                break;
-            case W:
-                x -= 1;
-                break;
-            case NW:
-                x -= 1;
-                y -= 1;
-                break;
+            case N: y -= 1; break;
+            case NE: x += 1; y -= 1; break;
+            case E: x += 1; break;
+            case SE: x += 1; y += 1; break;
+            case S: y += 1; break;
+            case SW: x -= 1; y += 1; break;
+            case W: x -= 1; break;
+            case NW: x -= 1; y -= 1; break;
         }
 
         // Ritorna la nuova posizione.

@@ -24,10 +24,13 @@ public class Main {
 
         //IPlayer human = new HumanPlayer("h", track.getStartPosition());
         IPlayer aggressiveBot = new AggressiveBot("a", track.getStartPosition());
+        //playersList.add(aggressiveBot);
         //IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
         IPlayer greedyBot = new GreedyBot("g", track.getStartPosition(), track);
+        //playersList.add(greedyBot);
         //IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
         IPlayer awareBot = new AwareBot("c", track.getStartPosition(), track, playersList);
+        //playersList.add(awareBot);
 
         //engine.addPlayer(human);
         engine.addPlayer(aggressiveBot);

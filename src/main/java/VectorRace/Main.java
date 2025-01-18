@@ -23,25 +23,15 @@ public class Main {
         List<IPlayer> playersList = new ArrayList<>();
 
         //IPlayer human = new HumanPlayer("h", track.getStartPosition());
-        IPlayer aggressiveBot = new AggressiveBot("a", track.getStartPosition());
-        //playersList.add(aggressiveBot);
+        IPlayer aggressiveBot = new AggressiveBot("a", track.getStartPosition());;
         //IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
         IPlayer greedyBot = new GreedyBot("g", track.getStartPosition(), track);
-        //playersList.add(greedyBot);
-        IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
-        //IPlayer awareBot = new AwareBot("c", track.getStartPosition(), track, playersList);
-        //playersList.add(awareBot);
+        //IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
 
         //engine.addPlayer(human);
         engine.addPlayer(aggressiveBot);
         //engine.addPlayer(defensiveBot);
         engine.addPlayer(greedyBot);
-        engine.addPlayer(speedBot);
-        //engine.addPlayer(awareBot);
-
-        for (IPlayer p : playersList) {
-            engine.addPlayer(p);
-        }
 
         engine.startRace();
     }

@@ -96,9 +96,14 @@ public class GameEngine {
         }
 
         // Se non si è conclusa entro maxTurns, terminiamo la gara.
-        if (!raceFinished) {
+        // Stampa il messaggio del limite max turni solo se ci sono ancora giocatori attivi.
+        if (!raceFinished && !players.isEmpty()) {
             System.out.println("Limite di " + maxTurns + " turni raggiunto. La partita termina.");
         }
+
+        // Forza la terminazione dell'applicazione
+        System.exit(0);
+
     }
 
     /**
@@ -162,7 +167,6 @@ public class GameEngine {
             // Se la nuova posizione è un traguardo, il giocatore ha vinto.
             if (board.isFinish(newPos)) {
                 System.out.println(((BasePlayer)player).getName() + " ha raggiunto il traguardo!");
-
                 return;
             }
             // Aggiornamento della posizione sul board e sullo stato del giocatore.
@@ -190,9 +194,9 @@ public class GameEngine {
             iterator.remove();
             previousDirections.remove(player);
         } else {
-            // Se la posizione è occupata da un altro giocatore.
+            // Caso in cui la posizione è occupata da un altro giocatore.
             System.out.println("Posizione occupata da un altro giocatore. " +
-                    ((BasePlayer)player).getName() + " riprova la mossa...");
+                    ((BasePlayer)player).getName() + " salta il turno.");
         }
     }
 

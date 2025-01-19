@@ -45,14 +45,25 @@ public class AggressiveBot extends BasePlayer {
     }
 
     /**
-     * Determina di quanto accelerare:
-     * se la velocità attuale è inferiore a 3, accelera di 1;
-     * altrimenti, non accelera (0).
-     * @return 1 se la velocità è minore di 3, 0 altrimenti.
+     * Sceglie l'accelerazione con una logica più elaborata:
+     * - Se la velocità < 2, accelera di 1.
+     * - Se la velocità >= 2, con probabilità del 70% accelera di 1,
+     *   altrimenti decelera di 1 (comportamento aggressivo ma non sempre al massimo).
      */
     @Override
     public int chooseAcceleration() {
-        // Confronta la velocità con la soglia 3 e ritorna il valore di accelerazione.
-        return (this.getVelocity() < 3) ? 1 : 0;
+        int currentVelocity = this.getVelocity();
+        if (currentVelocity < 2) {
+            // Sotto 2, accelera sempre
+            return 1;
+        } else {
+            // Se >= 2, accelera con probabilità 70%, altrimenti decelera
+            double roll = random.nextDouble(); // valore tra 0.0 e 1.0
+            if (roll < 0.7) {
+                return 1;  // accelera
+            } else {
+                return -1; // decelera
+            }
+        }
     }
 }

@@ -4,9 +4,7 @@ import VectorRace.Fisica.DefaultInertiaManager;
 import VectorRace.Fisica.IInertiaManager;
 import VectorRace.Fisica.IVelocityCalculator;
 import VectorRace.Fisica.SimpleVelocityCalculator;
-import VectorRace.Giocatori.AggressiveBot;
-import VectorRace.Giocatori.GreedyBot;
-import VectorRace.Giocatori.IPlayer;
+import VectorRace.Giocatori.*;
 import VectorRace.Motore.GameBoard;
 import VectorRace.Motore.GameEngine;
 import VectorRace.Posizione.ITrack;
@@ -32,17 +30,22 @@ public class Main {
         int maxTurns = 20;  // Imposta qui il limite desiderato
         GameEngine engine = new GameEngine(board, velocityCalc, inertiaMgr, maxTurns);
 
-        List<IPlayer> playersList = new ArrayList<>();
+        List<IPlayer> allPlayers = new ArrayList<>();
 
         //IPlayer human = new HumanPlayer("h", track.getStartPosition());
-        IPlayer aggressiveBot = new AggressiveBot("a", track.getStartPosition());;
         //IPlayer defensiveBot = new DefensiveBot("DefBot", track.getStartPosition(), track);
         IPlayer greedyBot = new GreedyBot("g", track.getStartPosition(), track);
+        allPlayers.add(greedyBot);
         //IPlayer speedBot = new SpeedControlBot("s", track.getStartPosition(), track);
+        IPlayer chaser = new ChaserBot("c", track.getStartPosition(), track, allPlayers);
+        allPlayers.add(chaser);
+        IPlayer saf = new SafeRunnerBot("s", track.getStartPosition(), track, allPlayers);
+        allPlayers.add(saf);
+
 
         //engine.addPlayer(human);
-        engine.addPlayer(aggressiveBot);
-        //engine.addPlayer(defensiveBot);
+        engine.addPlayer(saf);
+        engine.addPlayer(chaser);
         engine.addPlayer(greedyBot);
 
         engine.startRace();

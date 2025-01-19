@@ -1,5 +1,17 @@
 package VectorRace;
 
+import VectorRace.Fisica.DefaultInertiaManager;
+import VectorRace.Fisica.IInertiaManager;
+import VectorRace.Fisica.IVelocityCalculator;
+import VectorRace.Fisica.SimpleVelocityCalculator;
+import VectorRace.Giocatori.AggressiveBot;
+import VectorRace.Giocatori.GreedyBot;
+import VectorRace.Giocatori.IPlayer;
+import VectorRace.Motore.GameBoard;
+import VectorRace.Motore.GameEngine;
+import VectorRace.Posizione.ITrack;
+import VectorRace.Posizione.Track;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

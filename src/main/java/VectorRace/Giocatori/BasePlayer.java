@@ -1,4 +1,6 @@
-package VectorRace;
+package VectorRace.Giocatori;
+
+import VectorRace.Posizione.Position;
 
 /**
  * BasePlayer fornisce un’implementazione parziale dell’interfaccia IPlayer.

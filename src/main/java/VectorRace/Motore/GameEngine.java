@@ -1,4 +1,12 @@
-package VectorRace;
+package VectorRace.Motore;
+
+import VectorRace.Fisica.IInertiaManager;
+import VectorRace.Fisica.IVelocityCalculator;
+import VectorRace.Giocatori.BasePlayer;
+import VectorRace.Giocatori.IPlayer;
+import VectorRace.Motore.GameBoard;
+import VectorRace.Posizione.Position;
+import VectorRace.Posizione.VectorDirection;
 
 import java.util.*;
 

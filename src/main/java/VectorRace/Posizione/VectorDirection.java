@@ -1,4 +1,4 @@
-package VectorRace;
+package VectorRace.Posizione;
 
 /**
  * La classe VectorDirection calcola la direzione (in gradi, radianti

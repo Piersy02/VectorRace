@@ -1,4 +1,7 @@
-package VectorRace;
+package VectorRace.Giocatori;
+
+import VectorRace.Posizione.Position;
+import VectorRace.Posizione.VectorDirection;
 
 /**
  * L'interfaccia IPlayer definisce le operazioni di base richieste

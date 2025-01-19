@@ -1,4 +1,6 @@
-package VectorRace;
+package VectorRace.Fisica;
+
+import VectorRace.Posizione.Position;
 
 /**
  * L'interfaccia IVelocityCalculator definisce il metodo per calcolare

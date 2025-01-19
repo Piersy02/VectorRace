@@ -1,4 +1,6 @@
-package VectorRace;
+package VectorRace.Fisica;
+
+import VectorRace.Posizione.VectorDirection;
 
 import java.util.*;
 

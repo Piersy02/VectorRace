@@ -1,4 +1,6 @@
-package VectorRace;
+package VectorRace.Fisica;
+
+import VectorRace.Posizione.Position;
 
 /**
  * SimpleVelocityCalculator è un’implementazione di IVelocityCalculator

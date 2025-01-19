@@ -1,4 +1,7 @@
-package VectorRace;
+package VectorRace.Giocatori;
+
+import VectorRace.Posizione.Position;
+import VectorRace.Posizione.VectorDirection;
 
 import java.util.Scanner;
 

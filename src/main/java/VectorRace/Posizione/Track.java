@@ -1,4 +1,4 @@
-package VectorRace;
+package VectorRace.Posizione;
 
 import java.io.BufferedReader;
 import java.io.IOException;

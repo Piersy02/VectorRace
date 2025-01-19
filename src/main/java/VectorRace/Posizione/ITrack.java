@@ -1,4 +1,6 @@
-package VectorRace;
+package VectorRace.Posizione;
+
+import VectorRace.Posizione.Position;
 
 import java.io.IOException;
 

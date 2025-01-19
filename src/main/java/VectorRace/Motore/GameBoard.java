@@ -1,4 +1,11 @@
-package VectorRace;
+package VectorRace.Motore;
+
+import VectorRace.Giocatori.BasePlayer;
+import VectorRace.Giocatori.IPlayer;
+import VectorRace.Posizione.ITrack;
+import VectorRace.Posizione.Position;
+import VectorRace.Posizione.Track;
+import VectorRace.Posizione.VectorDirection;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package VectorRace;
+package VectorRace.Posizione;
 
 import java.util.Objects;
 

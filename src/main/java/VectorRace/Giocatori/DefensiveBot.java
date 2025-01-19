@@ -1,4 +1,8 @@
-package VectorRace;
+package VectorRace.Giocatori;
+
+import VectorRace.Posizione.ITrack;
+import VectorRace.Posizione.Position;
+import VectorRace.Posizione.VectorDirection;
 
 import java.util.ArrayList;
 import java.util.List;
